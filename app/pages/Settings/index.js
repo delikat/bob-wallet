@@ -26,6 +26,7 @@ import walletClient from "../../utils/walletClient";
 import InterstitialWarningModal from "./InterstitialWarningModal";
 import DeepCleanAndRescanModal from "./DeepCleanAndRescanModal";
 import {showError, showSuccess} from "../../ducks/notifications";
+import ItemsPerPagePicker from '../ItemsPerPagePicker';
 const {dialog} = require('electron').remote;
 
 const analytics = aClientStub(() => require('electron').ipcRenderer);
@@ -303,6 +304,14 @@ export default class Settings extends Component {
                 null,
                 null,
                 <ExplorerPicker />,
+                false,
+              )}
+              {this.renderSection(
+                'Default items per page',
+                'Default number of items that will be shown per page in tables',
+                null,
+                null,
+                <ItemsPerPagePicker />,
                 false,
               )}
             </>

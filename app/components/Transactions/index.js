@@ -30,6 +30,7 @@ const ITEM_PER_DROPDOWN = [
 
 @connect(
   (state) => ({
+    defaultItemsPerPage: state.app.itemsPerPage,
     transactions: state.wallet.transactions,
   }),
   (dispatch) => ({
@@ -55,7 +56,7 @@ export default class Transactions extends Component {
 
   state = {
     currentPageIndex: 0,
-    itemsPerPage: 5,
+    itemsPerPage: this.props.defaultItemsPerPage,
     sortBy: 0,
     query: '',
   };

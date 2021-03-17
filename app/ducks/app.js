@@ -1,9 +1,11 @@
 const SET_DEEPLINK = 'app/setDeeplink';
 const SET_DEEPLINK_PARAMS = 'app/setDeeplinkParams';
+const SET_ITEMS_PER_PAGE = 'app/setItemsPerPage';
 
 const initialState = {
   deeplink: '',
   deeplinkParams: {},
+  itemsPerPage: 5,
 };
 
 export const setDeeplink = url => ({
@@ -26,6 +28,11 @@ export const clearDeeplinkParams = () => ({
   payload: {},
 });
 
+export const setItemsPerPage = itemsPerPage => ({
+  type: SET_ITEMS_PER_PAGE,
+  payload: itemsPerPage,
+});
+
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
     case SET_DEEPLINK:
@@ -38,6 +45,11 @@ export default function appReducer(state = initialState, action) {
         ...state,
         deeplinkParams: action.payload,
       };
+    case SET_ITEMS_PER_PAGE:
+      return {
+        ...state,
+        itemsPerPage: action.payload,
+      }
     default:
       return state;
   }
