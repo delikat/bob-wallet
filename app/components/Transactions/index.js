@@ -10,6 +10,7 @@ import { fetchTransactions, fetchPendingTransactions } from '../../ducks/walletA
 import Dropdown from '../Dropdown';
 import BidSearchInput from '../BidSearchInput';
 import Fuse from '../../vendor/fuse';
+import { ITEM_PER_DROPDOWN } from '../../constants/ui';
 
 const SORT_BY_TYPES = {
   DATE_DESCENDING: 'Date - Descending',
@@ -19,13 +20,6 @@ const SORT_BY_TYPES = {
 const SORT_BY_DROPDOWN = [
   { label: SORT_BY_TYPES.DATE_DESCENDING },
   { label: SORT_BY_TYPES.DATE_ASCENDING },
-];
-
-const ITEM_PER_DROPDOWN = [
-  { label: '5', value: 5 },
-  { label: '10', value: 10 },
-  { label: '20', value: 20 },
-  { label: '50', value: 50 },
 ];
 
 @connect(

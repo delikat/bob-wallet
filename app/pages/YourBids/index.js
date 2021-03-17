@@ -18,18 +18,13 @@ import {getPageIndices} from "../../utils/pageable";
 import c from "classnames";
 import * as nameActions from "../../ducks/names";
 import * as notifActions from "../../ducks/notifications";
+import { ITEM_PER_DROPDOWN } from '../../constants/ui';
 
 const analytics = aClientStub(() => require('electron').ipcRenderer);
 
-const ITEM_PER_DROPDOWN = [
-  { label: '5', value: 5 },
-  { label: '10', value: 10 },
-  { label: '20', value: 20 },
-  { label: '50', value: 50 },
-];
-
 class YourBids extends Component {
   static propTypes = {
+    defaultItemsPerPage: PropTypes.number.isRequired,
     yourBids: PropTypes.array.isRequired,
     getYourBids: PropTypes.func.isRequired,
     sendRedeemAll: PropTypes.func.isRequired,
@@ -41,7 +36,7 @@ class YourBids extends Component {
   state = {
     isShowingNameClaimForPayment: false,
     currentPageIndex: 0,
-    itemsPerPage: 10,
+    itemsPerPage: this.props.defaultItemsPerPage,
     query: '',
   };
 
@@ -238,6 +233,7 @@ class YourBids extends Component {
 export default withRouter(
   connect(
     state => ({
+      defaultItemsPerPage: state.app.itemsPerPage,
       yourBids: state.bids.yourBids,
     }),
     dispatch => ({

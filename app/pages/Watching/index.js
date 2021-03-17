@@ -16,23 +16,19 @@ import fs from "fs";
 import Dropdown from "../../components/Dropdown";
 import {getPageIndices} from "../../utils/pageable";
 import {verifyName} from "../../utils/nameChecker";
+import { ITEM_PER_DROPDOWN } from '../../constants/ui';
+
 const {dialog} = require('electron').remote;
 
 const analytics = aClientStub(() => require('electron').ipcRenderer);
 
-const ITEM_PER_DROPDOWN = [
-  { label: '5', value: 5 },
-  { label: '10', value: 10 },
-  { label: '20', value: 20 },
-  { label: '50', value: 50 },
-];
-
 class Watching extends Component {
   static propTypes = {
-    network: PropTypes.string.isRequired,
-    names: PropTypes.arrayOf(PropTypes.string).isRequired,
     addNames: PropTypes.func.isRequired,
     addName: PropTypes.func.isRequired,
+    defaultItemsPerPage: PropTypes.number.isRequired,
+    names: PropTypes.arrayOf(PropTypes.string).isRequired,
+    network: PropTypes.string.isRequired,
     removeName: PropTypes.func.isRequired,
   };
 
@@ -42,7 +38,7 @@ class Watching extends Component {
     query: '',
     showError: false,
     currentPageIndex: 0,
-    itemsPerPage: 10,
+    itemsPerPage: this.props.defaultItemsPerPage,
     isConfirmingReset: false,
     isImporting: false,
   };
@@ -441,6 +437,7 @@ class Watching extends Component {
 export default withRouter(
   connect(
     state => ({
+      defaultItemsPerPage: state.app.itemsPerPage,
       names: state.watching.names,
       network: state.node.network,
     }),

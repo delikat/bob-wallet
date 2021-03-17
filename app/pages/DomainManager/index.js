@@ -14,20 +14,16 @@ import {displayBalance} from "../../utils/balances";
 import {getPageIndices} from "../../utils/pageable";
 import c from "classnames";
 import Dropdown from "../../components/Dropdown";
+import { ITEM_PER_DROPDOWN } from '../../constants/ui';
+
 
 const {dialog} = require('electron').remote;
 
 const analytics = aClientStub(() => require('electron').ipcRenderer);
 
-const ITEM_PER_DROPDOWN = [
-  { label: '5', value: 5 },
-  { label: '10', value: 10 },
-  { label: '20', value: 20 },
-  { label: '50', value: 50 },
-];
-
 class DomainManager extends Component {
   static propTypes = {
+    defaultItemsPerPage: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
     getMyNames: PropTypes.func.isRequired,
     namesList: PropTypes.array.isRequired,
@@ -37,7 +33,7 @@ class DomainManager extends Component {
   state = {
     isShowingNameClaimForPayment: false,
     currentPageIndex: 0,
-    itemsPerPage: 10,
+    itemsPerPage: this.props.defaultItemsPerPage,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -264,6 +260,7 @@ class DomainManager extends Component {
 export default withRouter(
   connect(
     state => ({
+      defaultItemsPerPage: state.app.itemsPerPage,
       names: state.myDomains.names,
       isFetching: state.myDomains.isFetching,
       namesList: Object.keys(state.myDomains.names),
