@@ -34,6 +34,7 @@ const SORT_BY_DROPDOWN = [
 )
 export default class Transactions extends Component {
   static propTypes = {
+    defaultItemsPerPage: PropTypes.number.isRequired,
     transactions: PropTypes.instanceOf(Map).isRequired,
   };
 
