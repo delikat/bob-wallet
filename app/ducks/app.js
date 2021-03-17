@@ -1,6 +1,10 @@
+import { clientStub as settingClientStub } from '../background/setting/client';
+
 const SET_DEEPLINK = 'app/setDeeplink';
 const SET_DEEPLINK_PARAMS = 'app/setDeeplinkParams';
 const SET_ITEMS_PER_PAGE = 'app/setItemsPerPage';
+
+const settingClient = settingClientStub(() => require('electron').ipcRenderer);
 
 const initialState = {
   deeplink: '',
@@ -28,10 +32,13 @@ export const clearDeeplinkParams = () => ({
   payload: {},
 });
 
-export const setItemsPerPage = itemsPerPage => ({
-  type: SET_ITEMS_PER_PAGE,
-  payload: itemsPerPage,
-});
+export const setItemsPerPage = (itemsPerPage) => async (dispatch) => {
+  await settingClient.setItemsPerPage(itemsPerPage) ;
+  dispatch({
+    type: SET_ITEMS_PER_PAGE,
+    payload: itemsPerPage,
+  });
+};
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {

@@ -21,6 +21,7 @@ import MyDomain from '../MyDomain';
 import YourBids from '../YourBids';
 import Watching from '../Watching';
 import SearchTLD from '../SearchTLD';
+import * as appActions from "../../ducks/app";
 import * as nodeActions from "../../ducks/node";
 import * as walletActions from '../../ducks/walletActions';
 import { listWallets } from '../../ducks/walletActions';
@@ -46,6 +47,7 @@ const settingClient = sClientStub(() => require('electron').ipcRenderer);
   (dispatch) => ({
     listWallets: () => dispatch(listWallets()),
     setExplorer: (explorer) => dispatch(nodeActions.setExplorer(explorer)),
+    setItemsPerPage: (itemsPerPage) => dispatch(appActions.setItemsPerPage(itemsPerPage))
   }),
 )
 class App extends Component {
@@ -82,6 +84,10 @@ class App extends Component {
       this.props.setExplorer(explorer)
     })
 
+    this.fetchItemsPerPage().then(itemsPerPage => {
+      this.props.setItemsPerPage(itemsPerPage);
+    });
+
     setTimeout(() => this.setState({isLoading: false}), 1000);
   }
 
@@ -99,6 +105,11 @@ class App extends Component {
       tx: 'https://hnsnetwork.com/txs/%s',
       name: 'https://hnsnetwork.com/names/%s',
     }
+  }
+
+  async fetchItemsPerPage() {
+    const itemsPerPage = await settingClient.getItemsPerPage();
+    return itemsPerPage || 5;
   }
 
   render() {
